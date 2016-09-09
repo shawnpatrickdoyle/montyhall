@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Beat Monty</title>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+	</head>
+	<body>
+		<!-- opening modal -->
+		<div class="modal fade" id="openingModal" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Beat Monty</h4>
+					</div>
+					<div class="modal-body">
+						<p>Hello, I'm Monty Hall, the guy from the Monty Hall problem. If you've not heard of it, the Monty Hall Problem is a probability puzzle that seems so counter intuitive that even some mathemeticians have trouble believing it's true.</p>
+						<p>The puzzle comes from a scenario on a game show I hosted, called <em>Let's Make a Deal</em>. Contestants would be shown three doors. Behind one of the doors was a fabulous prize, and behind the other two were not so fabulous prizes, usually a goat. Yes, an actual goat. Television was different back then.</p>
+						<p>Contestants chose one door, and they would win the prize behind whichever door they picked. However, to make it interesting, after they declared their pick and before their door was opened, I would then show them what was behind one of the doors they did not pick. Behind that door was always a goat. Then, I gave the contestant the option to switch their choice from the door they originally picked to the remaining door.</p>
+						<p>The Monty Hall Problem asks, "Do you get better odds of winning if you switch your choice to the other door?"</p>
+						<p>There is a very clear answer to that question. You're going to get a chance to answer that today by running through the scenario a number of times. To keep track of whether it is better to switch or stay, we'll have another contestant who will always choose the same door as you to start and will always switch when given the option. This designated switcher will be called Clemens, and his scores will be seen besides yours.</p>
+						<p>If you'd prefer to just find out the answer without making any choices, you can automatically run the scenario up to 10,000 times to see the winning percentages for switching versus not switching your choice.</p>
+						<p>What do you say? Are you going to play, or do you want to run the scenario a bunch of times to see how it all turns out?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#prizeModal" data-dismiss="modal">Play</button>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#simModal" data-dismiss="modal">Just automate it for me</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- sim modal -->
+		<div class="modal fade" id="simModal" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">How many times do you want to run the scenario?</h4>
+					</div>
+					<div class="modal-body">
+						<input type="number" name="iterations">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Run it</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- chose prize -->
+		<div class="modal fade choice" id="prizeModal" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body container-fluid">
+						<p>Wonderful. Glad you're game. And to reward you, I'm going to give you a chance to choose the fantastic prize you are playing for. Which sounds better to you?</p>
+						<div class="row">
+							<a data-target="" data-toggle="modal"><img src="images/ranch.jpeg" alt="ranch" class="img-rounded"></a>
+							<span>A lifetime's supply of ranch dressing</span>
+							<a data-target="" data-toggle="modal"><img src="images/transam.jpg" alt="trans-am" class="img-rounded"></a>
+							<span>A 1978 Pontiac Trans Am</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- make your choice -->
+		<div class="modal fade choice" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>I'm going to show you three doors, you can choose by just clicking on the door you'd like to select.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Got it, let me choose.</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- confirm choice -->
+		<div class="modal fade choice" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>You have chosen door number. Are you sure that's the door you want?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary">Yes, that's the one I want.</button>
+						<button type="button" class="btn btn-primary">No, let me go back.</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- open door -->
+		<div class="modal fade choice" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>Great. I'm going to show you what's behind one of the doors you didn't pick.</p>
+					</div>
+					<!-- on clicking this button, javascript fires to choose winner and show door -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="door-reveal">Show me.</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-3">Beat Monty</h1>
+				<p class="lead">Do yourself a favor, just switch every time.</p>
+			</div>
+		</div>
+		<div class="container-fluid">
+			
+			<div class="row">
+				<div class="curtain col-xs-4" style="border:grey 1px solid;">
+					<!-- The component wrapper -->
+					<div class="curtain_wrapper">
+						<!-- The checkbox hack! -->
+    					<input type="checkbox" checked class="checkbox">
+						<!-- The left curtain panel -->
+						<div class="curtain_panel curtain_panel-left">
+						</div> <!-- curtain__panel -->
+						<!-- The prize behind the curtain panels -->
+						<div class="curtain_prize">
+						</div> <!-- curtain__prize -->
+						<!-- The right curtain panel -->
+						<div class="curtain_panel curtain_panel-right">
+						</div> <!-- curtain__panel -->
+					</div> <!-- curtain__wrapper -->
+				</div><!-- curtain -->
+				<div class="curtain col-xs-4" style="border:grey 1px solid;height:400px">
+					
+				</div>
+				<div class="curtain col-xs-4" style="border:grey 1px solid;height:400px">
+					
+				</div>
+			</div>
+			<div class="row">
+				<div class="gutter col-xs-1"></div>
+				<div class="player col-xs-4" style="border:grey 1px solid;height:400px">
+					
+				</div>
+				<div class="divider col-xs-2"></div>
+				<div class="switcher col-xs-4" style="border:grey 1px solid;height:400px">
+					
+				</div>
+				<div class="gutter col-xs-1"></div>
+			</div>
+		</div>
+		<img src="images/monty.png" class="monty">
+	</body>
+</html>
+<script type="text/javascript">
+	$('#openingModal').modal(openOptions);
+	var openOptions = {
+		"background" : "static",
+		"show": "true"
+	};
+</script>
