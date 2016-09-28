@@ -2,8 +2,19 @@
 function chooseWinner(){
     return Math.floor(Math.random() * 3) + 1;
     }
-//get pick
-var pick = 1;
+//posting prizes
+function setPrizes(winner,prize){
+	// for(var i=1;i<=3;i++){
+	// 	if(winner===i){
+	// 		var winnerShow = ".curtain_prize_" + winner;
+	// 		var curtainPrize = ;
+	// 		$(winnerShow).html(curtainPrize);
+
+	// 	} else {
+
+	// 	}
+	// }
+}
 //choosing which box to reveal
 function revealBox(pick,winner){
 	//create array with all options for reveal
@@ -24,9 +35,22 @@ function revealBox(pick,winner){
 		return boxes[revealed];
 	}
 }
+//get an array of remaining choices
+function remainingArray(revealed){
+	var boxes = [1,2,3];
+	var revealedIndex = revealed-1;
+	boxes.splice(revealedIndex,1);
+	return boxes;
+}
+//box to switch to
+function remainingBox(array,pick){
+	var remainingIndex = pick-1;
+	array.splice(remainingIndex,1);
+	return array[0];
+}
 //switch option, will receive an array of the two remaining choices and current pick
-function switchMechanism(array,pick){
-	if(true){
+function switchMechanism(array,pick,option){
+	if(option==="true"){
 		//find current pick, remove it, return remaning box
 		var pickIndex = array.indexOf(pick);
 		array.splice(pickIndex,1);
@@ -48,10 +72,24 @@ function showWinner(pick,winner){
 		return "You lost";
 	}
 }
-//play the game
-function playGame(box){
-	var winner = chooseWinner();
-	var pick = box;
-	var boxes = [1,2,3];
-	
+function simulation(times,switchStatus){
+	var wins = 0;
+	var losses = 0;
+	for (var i=1;i<=times;i++){
+		//randomly select one of three as the winner
+		var winner = chooseWinner();
+		//randomly select one of three as the contestant pick
+		var choice = chooseWinner();
+		var revealed = revealBox(choice,winner);
+		var remaining = remainingArray(revealed);
+		//make the switch if sim asks for it
+		choice = switchMechanism(remaining,choice,switchStatus);
+		if(choice===winner){
+			wins+=1;
+		} else {
+			losses+=1;
+		}
+	}
+	return [wins,losses];
 }
+

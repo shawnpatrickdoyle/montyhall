@@ -2,9 +2,13 @@
 	cursor: pointer;
 	height: 100%;
 	opacity: 0;
+	pointer-events: none;
 	position: absolute;
 	width: 100%;
 	z-index: 100;
+}
+.choiceModal {
+	display: none;
 }
 .curtain {
 	height: 400px;
@@ -16,7 +20,6 @@
 	width: 100%;
 }
 .curtain_panel {
-	background: orange;
 	float: left;
 	height: 400px;
 	position: relative;
@@ -37,6 +40,12 @@
 	width: 100%;
 	z-index: 1;
 }
+.explainer {
+	display: none;
+}
+.gameChoice{
+	display: none;
+}
 input[type=checkbox]:checked ~ div.curtain_panel-left {
   transform: translateX(0);
 }
@@ -52,7 +61,32 @@ input[type=checkbox]:checked ~ div.curtain_panel-right {
 	margin: 0 auto;
 }
 .monty {
-	bottom: 0;
-	position: fixed;
-	right: 0;
+	height: 300px;
+}
+.offer {
+	display: none;
+}
+.panel1{
+	background: red;
+}
+.panel2{
+	background: purple;
+}
+.panel3{
+	background: green;
+}
+.prize {
+	max-width: 100%;
+}
+.ranch{
+	display: none;
+}
+.resultStatement {
+	display: none;
+}
+.simResults{
+	display: none;
+}
+.trans-am {
+	display: none;
 }
