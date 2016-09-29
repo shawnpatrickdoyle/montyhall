@@ -3,12 +3,13 @@ $( document ).ready(function() {
 	var lastBox = 0;
 	var winner = 0;
 	var switched = false;
+	var winStatus = false;
 	var games = 0;
 	var playerWins = 0;
 	var switchWins = 0;
 	var playerWinPct = 0;
 	var switchWinPct = 0;
-	var goat = "<img src='images/goat.png' align='center'>";
+	var goat = "<img src='images/goat.png' align='center' class='prizeShot'>";
 	//navigation
 	$("#explainer").click(
 		function(){
@@ -51,32 +52,43 @@ $( document ).ready(function() {
 		function(){
 			pick=1;
 			$(".doorPick").html(pick);
-			$(".curtain").click(false);
+			$(".curtain").addClass("unclickable");
 		});
 	$("#curtain2").click(
 		function(){
 			pick=2;
 			$(".doorPick").html(pick);
-			$(".curtain").click(false);
+			$(".curtain").addClass("unclickable");
 		});
 	$("#curtain3").click(
 		function(){
 			pick=3;
 			$(".doorPick").html(pick);
-			$(".curtain").click(false);
+			$(".curtain").addClass("unclickable");
+		});
+	//repick
+	$("#pickAgain").click(
+		function(){
+			$(".doorPick").empty();
+			$(".curtain").removeClass("unclickable");
 		});
 	//game play
 	$("#door-reveal").click(
 		function(){
 			winner = chooseWinner();
+			console.log("winner " + winner);
+			console.log("pick " + pick);
 			var reveal = revealBox(pick,winner);
+			console.log("reveal " + reveal);
 			var zonkReveal = "#checkbox" + reveal;
 			var zonkImage = "#curtain_prize_" + reveal;
 			var otherBoxes = remainingArray(reveal);
-			lastBox = remainingBox(otherBoxes,pick);
+			console.log("other boxes " + otherBoxes);
+			lastBox = switchMechanism(otherBoxes,pick,"true");
 			$(zonkImage).html(goat);
 			$(zonkReveal).prop('checked', false);
 			$(".lastBox").html(lastBox);
+			console.log("last Box" + lastBox);
 			setTimeout(function() { $('#switchModal').modal('show'); }, 2000);
 	});
 	//switch
@@ -84,16 +96,16 @@ $( document ).ready(function() {
 		function(){
 				pick = lastBox;
 				switched = true;
+				console.log("switched to " + pick);
 			}
 	);
 	//check winner
 	$(".switchChoice").click(
 			function(){
-				var winStatus = false;
 				games+=1;
-				console.log("pick " + pick);
+				console.log("games " + games);
 				console.log("winner " + winner);
-				console.log("last Box" + lastBox);
+				
 				if (winner===pick){
 					winStatus=true;
 					playerWins+=1;
@@ -103,10 +115,11 @@ $( document ).ready(function() {
 					switchWins+=1;
 					console.log("Switch:" + switchWins);
 				}
+				console.log("*****************");
 				var final_curtain="#curtain_prize_" + pick;
 				var prizeReveal="#checkbox" + pick;
 				if (winStatus){
-					var prizeImage="<img src='images/" + prize + ".png' align='center'>";
+					var prizeImage="<img src='images/" + prize + ".png' align='center' class='prizeShot'>";
 					$(final_curtain).html(prizeImage);
 					$(prizeReveal).prop('checked',false);
 				} else {
@@ -120,7 +133,7 @@ $( document ).ready(function() {
 				if (prize==="transam"){
 					$(".winningPrize").html("1978 Pontiac Trans Am");
 				} else {
-					$(".winningPrize").html("lifetime's supply of Ranch dressing");
+					$(".winningPrize").html("lifetime's supply of ranch dressing");
 				}
 				switch(true){
 					case (winStatus===true && switched===false):
@@ -137,6 +150,43 @@ $( document ).ready(function() {
 						break;
 				}
 				setTimeout(function() { $('#resultModal').modal('show'); }, 2000);
+			}
+		);
+	//start new round
+	$('#playAgain').click(
+			function(){
+				pick = 0;
+				winStatus = false;
+				lastBox = 0;
+				winner = 0;
+				switched = false;
+				$(':checkbox').prop('checked',true);
+				$('.curtain_prize').empty();
+				$('#restartModal').modal('show');
+				$(".curtain").removeClass("unclickable");
+				$(".resultStatement").hide();
+			}
+		);
+	//reset scores
+	$('#reset').click(
+			function(){
+				pick = 0;
+				winStatus = false;
+				lastBox = 0;
+				winner = 0;
+				switched = false;
+				games = 0;
+				playerWins = 0;
+				switchWins = 0;
+				playerWinPct = 0;
+				switchWinPct = 0;
+				$(':checkbox').prop('checked',true);
+				$('.curtain_prize').empty();
+				$('#restartModal').modal('show');
+				$(".curtain").removeClass("unclickable");
+				$("#playerWinPct").html("No games yet");
+				$(".resultStatement").hide();
+				$("#switchWinPct").html("No games yet");
 			}
 		);
 	//simulation

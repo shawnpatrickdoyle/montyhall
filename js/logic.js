@@ -42,12 +42,7 @@ function remainingArray(revealed){
 	boxes.splice(revealedIndex,1);
 	return boxes;
 }
-//box to switch to
-function remainingBox(array,pick){
-	var remainingIndex = pick-1;
-	array.splice(remainingIndex,1);
-	return array[0];
-}
+
 //switch option, will receive an array of the two remaining choices and current pick
 function switchMechanism(array,pick,option){
 	if(option==="true"){
@@ -59,19 +54,7 @@ function switchMechanism(array,pick,option){
 		return pick;
 	}
 }
-// reveal the winner
-function showWinner(pick,winner){
-	if (pick===winner){
-		//add a mark to the win column
-		//update overall percentage
-		return "You won";
 
-	} else {
-	 	//add a mark to the loss column
-		//update overall percentage
-		return "You lost";
-	}
-}
 function simulation(times,switchStatus){
 	var wins = 0;
 	var losses = 0;

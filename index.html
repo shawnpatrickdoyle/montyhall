@@ -6,6 +6,7 @@
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 		<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<link href="https://fonts.googleapis.com/css?family=Fontdiner+Swanky" rel="stylesheet">
 		<script src="js/logic.js"></script>
 		<script src="js/scripts.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -15,7 +16,7 @@
 		<!-- opening modal -->
 		<div class="modal fade" id="openingModal" role="dialog" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
+				<div class="modal-content dialogue">
 					<div class="modal-header">
 						<h4 class="modal-title">Beat Monty</h4>
 					</div>
@@ -60,7 +61,7 @@
 		<!-- sim modal -->
 		<div class="modal fade" id="simModal" role="dialog">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content dialogue">
 					<div class="modal-header simResults">
 						Results of simulations
 					</div>
@@ -99,7 +100,7 @@
 		<!-- chose prize -->
 		<div class="modal fade choice" id="prizeModal" role="dialog">
 			<div class="modal-dialog modal-lg">
-				<div class="modal-content prizeModal">
+				<div class="modal-content prizeModal dialogue">
 					<div class="modal-body container-fluid">
 						<p>Wonderful. Glad you're game. And to reward you, I'm going to give you a chance to choose the fantastic prize you are playing for. Which sounds better to you?</p>
 						<div class="row">
@@ -110,7 +111,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-content choiceModal">
+				<div class="modal-content choiceModal dialogue">
 					<div class="modal-body">
 						<img src="images/monty.png" class="monty" align="right">
 						<p class="ranch">Wow, you'll be able to swim in ranch dressing. Just like you've always dreamed.</p>
@@ -126,13 +127,13 @@
 		<!-- confirm choice -->
 		<div class="modal fade choice" tabindex="-1" role="dialog" id="confirmModal" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content dialogue">
 					<div class="modal-body">
 						<p>You have chosen door number <span class="doorPick"></span>. Are you sure that's the door you want?</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#revealModal" data-dismiss="modal">Yes, that's the one I want.</button>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#revealModal" data-dismiss="modal">No, let me go back.</button>
+						<button type="button" class="btn btn-primary" data-toggle="modal" id="pickAgain" data-dismiss="modal">No, let me go back.</button>
 					</div>
 				</div>
 			</div>
@@ -140,7 +141,7 @@
 		<!-- open door -->
 		<div class="modal fade switch" tabindex="-1" role="dialog" id="revealModal" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content dialogue">
 					<div class="modal-body">
 						<p>Great. I'm going to show you what's behind one of the doors you didn't pick.</p>
 					</div>
@@ -154,7 +155,7 @@
 		<!-- option to switch -->
 		<div class="modal fade choice" tabindex="-1" role="dialog" id="switchModal" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content dialogue">
 					<div class="modal-body">
 						<p>Now, here's the big question. Do you want to stick with your pick of door <span class="doorPick"></span> or do you want to switch to door number <span class="lastBox">.</span></p>
 					</div>
@@ -166,30 +167,33 @@
 				</div>
 			</div>
 		</div>
-		<!-- big payoff modal -->
-		<div class="modal fade choice" tabindex="-1" role="dialog" id="revealModal" data-backdrop="static" data-keyboard="false">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-body">
-						<p>You have chosen to <span id="switchStatus"></span>. Let's see how that worked out. Show us what is behind door number <span id="finalPick"></span>.</p>
-					</div>
-				</div>
-			</div>
-		</div>
 		<!-- results modal -->
 		<div class="modal fade choice" tabindex="-1" role="dialog" id="resultModal" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog">
-				<div class="modal-content">
+				<div class="modal-content dialogue">
 					<div class="modal-body">
 						<span id="stayWin" class="resultStatement"><p>Congrats, you stuck with your first pick and you won your <span class="winningPrize"></span>. Your mother must be so proud that you beat the odds. Not a great strategy in the long run.</p></span>
 						<span id="stayLoss" class="resultStatement"><p>Well, you chose to buck the odds, and the odds have bucked you back. May you and your new goat be happy. Please remember that your new goat has yoga on Thursdays and country line dancing on Fridays.</p></span>
 						<span id="switchWin" class="resultStatement"><p>Congrats, the odds were in your favor. Here's your <span class="winningPrize"></span>.</p></span>
 						<span id="switchLoss" class="resultStatement"><p>Well, you can't win them all. But the odds say that if you keep switching, you'll win twice as much.</p></span>
 					</div>
-					<!-- on clicking this button, start the switch -->
 					<div class="modal-footer">
-							<button type="button" class="btn btn-default switchChoice" id="playAgain" data-dismiss="modal">Play again?</button>
-							<button type="button" class="btn btn-default switchChoice" id="reset" data-dismiss="modal">Reset scores.</button>
+							<button type="button" class="btn btn-default endChoice" id="playAgain" data-dismiss="modal">Play again?</button>
+							<button type="button" class="btn btn-default endChoice" id="reset" data-dismiss="modal">Reset scores.</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--restart modal-->
+		<div class="modal fade choice" tabindex="-1" role="dialog" id="restartModal" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content dialogue">
+					<div class="modal-body">
+						<p>Glad you're game for another go.</p>
+						<p>You know the drill by now, I'm going to show you three doors, you pick which one you think your prize is hiding behind.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Got it, let me choose.</button>
 					</div>
 				</div>
 			</div>
@@ -197,7 +201,7 @@
 		
 		<div class="jumbotron jumbotron-fluid">
 			<div class="container">
-				<h1 class="display-3">Beat Monty</h1>
+				<h1 class="display-3 title">Beat Monty</h1>
 				<p class="lead">Do yourself a favor, just switch every time.</p>
 			</div>
 		</div>
@@ -205,68 +209,53 @@
 			
 			<div class="row">
 				<div class="curtain curtain1 col-xs-4" id="curtain1" data-toggle="modal" data-target="#confirmModal" data-dismiss="modal">
-					<!-- The component wrapper -->
 					<div class="curtain_wrapper">
-						<!-- The checkbox hack! -->
     					<input type="checkbox" checked class="checkbox" id="checkbox1">
-						<!-- The left curtain panel -->
 						<div class="curtain_panel curtain_panel-left panel1">
-						</div> <!-- curtain__panel -->
-						<!-- The prize behind the curtain panels -->
+						</div> 
 						<div class="curtain_prize" id="curtain_prize_1">
-						</div> <!-- curtain__prize -->
-						<!-- The right curtain panel -->
+						</div> 
 						<div class="curtain_panel curtain_panel-right panel1">
-						</div> <!-- curtain__panel -->
-					</div> <!-- curtain__wrapper -->
-				</div><!-- curtain -->
+						</div> 
+					</div>
+				</div>
 				<div class="curtain curtain2 col-xs-4" id="curtain2" data-toggle="modal" data-target="#confirmModal" data-dismiss="modal">
-					<!-- The component wrapper -->
 					<div class="curtain_wrapper">
-						<!-- The checkbox hack! -->
     					<input type="checkbox" checked class="checkbox" id="checkbox2">
-						<!-- The left curtain panel -->
 						<div class="curtain_panel curtain_panel-left panel2">
-						</div> <!-- curtain__panel -->
-						<!-- The prize behind the curtain panels -->
+						</div> 
 						<div class="curtain_prize" id="curtain_prize_2">
-						</div> <!-- curtain__prize -->
-						<!-- The right curtain panel -->
+						</div> 
 						<div class="curtain_panel curtain_panel-right panel2">
-						</div> <!-- curtain__panel -->
-					</div> <!-- curtain__wrapper -->
+						</div> 
+					</div> 
 				</div>
 				<div class="curtain curtain3 col-xs-4" id="curtain3" data-toggle="modal" data-target="#confirmModal" data-dismiss="modal">
-					<!-- The component wrapper -->
 					<div class="curtain_wrapper">
-						<!-- The checkbox hack! -->
     					<input type="checkbox" checked class="checkbox" id="checkbox3">
-						<!-- The left curtain panel -->
 						<div class="curtain_panel curtain_panel-left panel3">
-						</div> <!-- curtain__panel -->
-						<!-- The prize behind the curtain panels -->
+						</div> 
 						<div class="curtain_prize" id="curtain_prize_3">
-						</div> <!-- curtain__prize -->
-						<!-- The right curtain panel -->
+						</div> 
 						<div class="curtain_panel curtain_panel-right panel3">
-						</div> <!-- curtain__panel -->
-					</div> <!-- curtain__wrapper -->
+						</div> 
+					</div> 
 				</div>
 			</div>
 			<div class="row">
 
-				<div class="player col-xs-6" style="border:grey 1px solid;">
-					<h1>Player Winning Pct.</h1>
-					<span id="playerWinPct"></span>
+				<div class="player col-xs-6">
+					<h1>Player Winning Pct. <span id="playerWinPct"></span></h1>
+					
 				</div>
-				<div class="switcher col-xs-6" style="border:grey 1px solid;">
-					<h1>Switcher Winning Pct.</h1>
-					<span id="switchWinPct"></span>
+				<div class="switcher col-xs-6">
+					<h1>Switcher Winning Pct. <span id="switchWinPct"></span></h1>
+					
 				</div>
 			</div>
 		</div>
 		<footer class="footer">
-			<div class="container-fluid" style="background-color:blue;">
+			<div class="container-fluid">
 				<p class="text-muted right-align">Shawn Patrick Doyle 2016</p>
 			</div>
 		</footer>

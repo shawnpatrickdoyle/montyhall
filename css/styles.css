@@ -40,6 +40,11 @@
 	width: 100%;
 	z-index: 1;
 }
+.dialogue {
+	background: url(../images/dialogue_background.jpg) top center;
+	background-repeat: no-repeat;
+	box-shadow: inset 0 0 0 10000px rgba(255, 255, 255, .5);
+}
 .explainer {
 	display: none;
 }
@@ -78,6 +83,9 @@ input[type=checkbox]:checked ~ div.curtain_panel-right {
 .prize {
 	max-width: 100%;
 }
+.prizeShot {
+	max-width: 100%;
+}
 .ranch{
 	display: none;
 }
@@ -87,6 +95,12 @@ input[type=checkbox]:checked ~ div.curtain_panel-right {
 .simResults{
 	display: none;
 }
+.title {
+	font-family: 'Fontdiner Swanky', cursive;
+}
 .trans-am {
 	display: none;
+}
+.unclickable {
+	pointer-events: none;
 }
