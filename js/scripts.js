@@ -9,6 +9,9 @@ $( document ).ready(function() {
 	var switchWins = 0;
 	var playerWinPct = 0;
 	var switchWinPct = 0;
+	var simWins=0;
+	var simLosses=0;
+	var times=0;
 	var goat = "<img src='images/goat.png' align='center' class='prizeShot'>";
 	//navigation
 	$("#explainer").click(
@@ -48,23 +51,36 @@ $( document ).ready(function() {
 			$(".gameChoice").show();
 		});
 	//choosing
+	$("#addInstructions").click(function(){
+		$(".bottomMonty").show();
+		$("#choiceInstructions").show();
+	});
 	$("#curtain1").click(
 		function(){
 			pick=1;
 			$(".doorPick").html(pick);
 			$(".curtain").addClass("unclickable");
+			$("#choiceInstructions").hide();
+			$("#confirmModal").show();
+			$('#restartModal').hide();
 		});
 	$("#curtain2").click(
 		function(){
 			pick=2;
 			$(".doorPick").html(pick);
 			$(".curtain").addClass("unclickable");
+			$("#choiceInstructions").hide();
+			$("#confirmModal").show();
+			$('#restartModal').hide();
 		});
 	$("#curtain3").click(
 		function(){
 			pick=3;
 			$(".doorPick").html(pick);
 			$(".curtain").addClass("unclickable");
+			$("#choiceInstructions").hide();
+			$("#confirmModal").show();
+			$('#restartModal').hide();
 		});
 	//repick
 	$("#pickAgain").click(
@@ -72,50 +88,44 @@ $( document ).ready(function() {
 			$(".doorPick").empty();
 			$(".curtain").removeClass("unclickable");
 		});
-	//game play
+	//trigger reveal
+	$('#confirm').click(function(){
+		$('#confirmModal').hide();
+		$('#revealModal').show();
+	});
+	//game play	
 	$("#door-reveal").click(
 		function(){
 			winner = chooseWinner();
-			console.log("winner " + winner);
-			console.log("pick " + pick);
 			var reveal = revealBox(pick,winner);
-			console.log("reveal " + reveal);
 			var zonkReveal = "#checkbox" + reveal;
 			var zonkImage = "#curtain_prize_" + reveal;
 			var otherBoxes = remainingArray(reveal);
-			console.log("other boxes " + otherBoxes);
 			lastBox = switchMechanism(otherBoxes,pick,"true");
 			$(zonkImage).html(goat);
 			$(zonkReveal).prop('checked', false);
 			$(".lastBox").html(lastBox);
-			console.log("last Box" + lastBox);
-			setTimeout(function() { $('#switchModal').modal('show'); }, 2000);
+			$('#revealModal').hide();
+			setTimeout(function() { $('#switchModal').show(); }, 1000);
 	});
 	//switch
 	$("#switch").click(
 		function(){
 				pick = lastBox;
 				switched = true;
-				console.log("switched to " + pick);
 			}
 	);
 	//check winner
 	$(".switchChoice").click(
 			function(){
 				games+=1;
-				console.log("games " + games);
-				console.log("winner " + winner);
-				
 				if (winner===pick){
 					winStatus=true;
 					playerWins+=1;
-					console.log("Player:" + playerWins);
 				}
 				if (winner===lastBox){
 					switchWins+=1;
-					console.log("Switch:" + switchWins);
 				}
-				console.log("*****************");
 				var final_curtain="#curtain_prize_" + pick;
 				var prizeReveal="#checkbox" + pick;
 				if (winStatus){
@@ -128,8 +138,8 @@ $( document ).ready(function() {
 				}
 				switchWinPct = ((switchWins/games)*100).toFixed(2);
 				playerWinPct = ((playerWins/games)*100).toFixed(2);
-				$("#playerWinPct").html(playerWinPct + "%");
-				$("#switchWinPct").html(switchWinPct + "%");
+				$("#playerWinPct").html("<h4>" + playerWinPct + "%</h4>");
+				$("#switchWinPct").html("<h4>" + switchWinPct + "%</h4>");
 				if (prize==="transam"){
 					$(".winningPrize").html("1978 Pontiac Trans Am");
 				} else {
@@ -149,7 +159,8 @@ $( document ).ready(function() {
 						$('#switchLoss').show();
 						break;
 				}
-				setTimeout(function() { $('#resultModal').modal('show'); }, 2000);
+				$('#switchModal').hide();
+				$('#resultsModal').show();
 			}
 		);
 	//start new round
@@ -162,7 +173,8 @@ $( document ).ready(function() {
 				switched = false;
 				$(':checkbox').prop('checked',true);
 				$('.curtain_prize').empty();
-				$('#restartModal').modal('show');
+				$('#resultsModal').hide();
+				$('#restartModal').show();
 				$(".curtain").removeClass("unclickable");
 				$(".resultStatement").hide();
 			}
@@ -182,7 +194,8 @@ $( document ).ready(function() {
 				switchWinPct = 0;
 				$(':checkbox').prop('checked',true);
 				$('.curtain_prize').empty();
-				$('#restartModal').modal('show');
+				$('#resultsModal').hide();
+				$('#restartModal').show();
 				$(".curtain").removeClass("unclickable");
 				$("#playerWinPct").html("No games yet");
 				$(".resultStatement").hide();
@@ -190,23 +203,60 @@ $( document ).ready(function() {
 			}
 		);
 	//simulation
+	$("#reloadGame").click(
+		function(){
+			location.reload();
+		});
 	$("#simStart").click(
 			function(){
 				var switchStatus = $("input[name='choice']:checked").val();
-				var times = $("#iterations").val();
-				if(times>100000){
+				var iterations=$("#iterations").val();
+				times+= parseInt(iterations);
+				if(iterations>100000){
 					alert("Please have sympathy on the poor mother goats and choose a number less than 100,000.");
 				} else {
 					var results = simulation(times,switchStatus);
-					var wins = results[0];
-					var losses = results[1];
-					var winningPct = ((wins/times)*100).toFixed(3);
-					var message = "After " + times + " " + "simulations, here are your results.";
+					simWins+= results[0];
+					simLosses+= results[1];
+					var winningPct = ((simWins/(simWins+simLosses))*100).toFixed(3);
+					var message = "<h3 class='simText'>After " + times + " " + "simulations, here are your results.</h3>";
 					$("#message").html(message);
 					$("#simStart").html("Run it again");
-					$("#simWins").html("Wins<br>" + wins);
-					$("#simLosses").html("Losses<br>" + losses);
+					$("#simWinsHeader").html("Wins");
+					$("#simLossesHeader").html("Losses");
+					$("#simWinPctHeader").html("Winning Pct.");
+					$("#simWins").html(simWins);
+					$("#simLosses").html(simLosses);
+					$("#simWinPct").html(winningPct + "%");
+					$('.tableResults').show();
+					$('.more-info').show();
 				}
 			}
 		);
+	$("#resetSim").click(function(){
+		simWins = 0;
+		simLosses = 0;
+				var switchStatus = $("input[name='choice']:checked").val();
+				var iterations=$("#iterations").val();
+				times+= parseInt(iterations);
+				if(iterations>100000){
+					alert("Please have sympathy on the poor mother goats and choose a number less than 100,000.");
+				} else {
+					var results = simulation(times,switchStatus);
+					simWins+= results[0];
+					simLosses+= results[1];
+					var winningPct = ((simWins/(simWins+simLosses))*100).toFixed(3);
+					var message = "<h3 class='simText'>After " + times + " " + "simulations, here are your results.</h3>";
+					$("#message").html(message);
+					$("#simStart").html("Run it again");
+					$("#simWinsHeader").html("Wins");
+					$("#simLossesHeader").html("Losses");
+					$("#simWinPctHeader").html("Winning Pct.");
+					$("#simWins").html(simWins);
+					$("#simLosses").html(simLosses);
+					$("#simWinPct").html(winningPct+ "%");
+					$('.tableResults').show();
+					$('.more-info').show();
+				}
+	});
 }); //doc ready
