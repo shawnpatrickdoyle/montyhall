@@ -2,19 +2,7 @@
 function chooseWinner(){
     return Math.floor(Math.random() * 3) + 1;
     }
-//posting prizes
-function setPrizes(winner,prize){
-	// for(var i=1;i<=3;i++){
-	// 	if(winner===i){
-	// 		var winnerShow = ".curtain_prize_" + winner;
-	// 		var curtainPrize = ;
-	// 		$(winnerShow).html(curtainPrize);
 
-	// 	} else {
-
-	// 	}
-	// }
-}
 //choosing which box to reveal
 function revealBox(pick,winner){
 	//create array with all options for reveal
